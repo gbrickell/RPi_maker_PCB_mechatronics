@@ -1,0 +1,223 @@
+  <!-- version: 1.00 -->
+  <!-- file name: obj_type_servo.html -->
+  <!-- mechatronic Flask web interface - a page template for selecting and editing the action file of a servo motor object  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses a 'partial' to insert the common HTML for returning to the select options -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220127 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the servo object edit interface: list and opt to edit one of the currently defined servo objects    -->
+	<div class="first row">
+      <h5 align="center" style="margin-bottom: 0px;">List of {{servoobjs}} servo motor mechatronic objects</h5>
+      <div style="margin-top: 0%; width: auto; padding-left: 10%; padding-right: 10%;">
+	    <table align="center" style="margin-bottom: 0px;">
+		<tr><td align="center"><b>object#</b></td><td><b>object name</b></td><td><b>object description</b></td><td>&nbsp;</td></tr>
+		{%for i in range(1, servoobjs+1)%}
+			{% if i == selservoobj %}
+			<tr><td  align="center" bgcolor="#33FF00">{{i}}</td><td  bgcolor="#33FF00">{{servocopy_objects[i][0]}}</td><td bgcolor="#33FF00">{{servocopy_objects[i][3]}}</td><td bgcolor="#33FF00"><a class="button button-primary u-full-width" title="click to edit the details this servo object" href="/maintenance/obj_servo_edit{{i}}">edit</a></td></tr>
+			{% else %}
+			<tr><td align="center" bgcolor="FFFFFF">{{i}}</td><td  bgcolor="FFFFFF">{{servocopy_objects[i][0]}}</td><td bgcolor="FFFFFF">{{servocopy_objects[i][3]}}</td><td bgcolor="FFFFFF"><a class="button button-primary u-full-width" title="click to edit the details this servo object" href="/maintenance/obj_servo_edit{{i}}">edit</a></td></tr>
+			{% endif %}
+		{%endfor%}	  
+		</table>	  
+	  </div>
+	  
+    </div>
+
+
+	
+    <!-- 2nd row of the servo options interface:    add a new servo object        -->
+	<div class="second row" style="margin-top: 0;" >
+
+	  {% if selservoobj == 0 %}
+      	<h5 style="margin-top: 15px; margin-bottom: 0px; padding-left: 135px;">add a new servo object:</h5>	  
+	  		<form action="/maintenance/obj_servo_new" method="get" >
+      			<div  style="margin-top: 3px;  padding-left: 14%; padding-right: 15%; font-size: 14px; width: 70%; ">
+           			 new object name: <input name="newobjname" size="20" type="text" />&nbsp;&nbsp; sequence file: <input name="seqfile" size="30" type="text" />
+					 <br/> new object description: <input name="newobjdesc" size="40" type="text" />&nbsp;&nbsp;&nbsp;&nbsp;
+					 <input name="submit" type="submit" value='submit new servo object' />
+      			</div>
+	  		</form>	
+
+      	<h5 style="margin-bottom: 0px; padding-left: 135px;">clone an existing servo object:</h5>	  
+	  		<form action="/maintenance/obj_servo_clone" method="get" >
+      			<div  style="margin-top: 3px;  padding-left: 14%; padding-right: 15%; font-size: 14px; width: 70%; ">
+           			 object# to clone: <input name="cloneobjnum" size="3" type="text" />&nbsp;&nbsp; new object name: <input name="cloneobjname" size="20" type="text" />
+                     <br/>new sequence file name: <input name="cloneseqfile" size="30" type="text" />
+					 <br/>new object description: <input name="cloneobjdesc" size="40" type="text" />&nbsp;&nbsp;&nbsp;&nbsp;
+					 <input name="submit" type="submit" value='submit clone details' /> 
+      			</div>
+	  		</form>	
+	  {% endif %}
+
+    </div>
+
+
+    <!-- 3rd row of the servo options interface: edit an existing servo object   -->
+	<div class="third row" style="margin-top: 0;">
+
+    {% if warnweb|length > 0 %}
+	  <div style="margin-top: 1%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        <h5 style="margin-bottom: 0;">{{warnweb}}</h5>
+      </div>
+	{% endif %}
+
+	 <!-- if a servo object has been selected   -->
+	{% if selservoobj > 0 %}
+
+		<!-- if a servo channel index entry does not exist show this - else list the servos used for the object  -->
+	  <div style="margin-top: 0%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        {% if selservoobj > rowsservochans-1 %}
+        <h5 style="margin-bottom: 0;"> no servo channel index entry 
+			{% if lenservoact == 1 %}
+			and no actions defined 
+			{% endif %}
+		 for this servo object
+		{% else %}
+       		 {% if servo_channels[selservoobj][1]|int > 1 %}
+       		 	<h5 style="margin-bottom: 0;"> {{servo_channels[selservoobj][1]}} servo's used: channel# &nbsp;
+       		 {% else %}
+       		 	<h5 style="margin-bottom: 0;"> {{servo_channels[selservoobj][1]}} servo used: channel# &nbsp;
+		     {% endif %}   
+
+       		 {%for i in range(1, servo_channels[selservoobj][1]|int+1)%}
+        		{% if i < servo_channels[selservoobj][1]|int %}
+        		    {{servo_channels[selservoobj][i*2]}} - {{servo_channels[selservoobj][i*2+1]}},&nbsp;
+      		    {% else %}
+       		        {{servo_channels[selservoobj][i*2]}} - {{servo_channels[selservoobj][i*2+1]}}
+	  		    {% endif %}
+			 {%endfor%}
+		{% endif %}
+		</h5>
+      </div>
+
+		<!-- if a servo channel index entry does exist show the detail in an edit form or show an entry form to create one  -->
+      <div style="margin-top: 0%; margin-bottom: 15px; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        {% if selservoobj > rowsservochans-1 %}
+	  	<form action="/maintenance/obj_servo_channel_create" method="get" >
+	    <table class="inputtable" cellspacing="0" cellpadding="0" align="center" style="margin: 0px;">
+		<tr><td><input style="padding: 0px 0px;" name="cfield1" size="1" type="text" value="0" /> servo's defined: update this number and enter <i>'channel# : short description'</i> data pairs below</td></tr></table>
+	    <table class="inputtable" cellspacing="0" cellpadding="0" align="center" style="margin: 0px;">
+		<tr>
+		{% for i in range(2, 18) %}
+            <td><input style="padding: 0px 0px;" name="cfield{{i}}" size="1" type="text" value="-" /></td>
+		{%endfor%}
+		</tr>
+		<tr>
+		{% for i in range(18, 34) %}
+            <td><input style="padding: 0px 0px;" name="cfield{{i}}" size="1" type="text" value="-" /></td>
+		{%endfor%}
+		</tr>
+		</table>
+		<input name="submit" type="submit" value="enter new servo channel data" />
+	  	</form>
+       	{% else %}
+	  	<form action="/maintenance/obj_servo_channel_update" method="get" >
+	    <table class="inputtable" cellspacing="0" cellpadding="0" align="center" style="margin: 0px;">
+		<tr><td><input style="padding: 0px 0px;" name="cfield1" size="{{servo_channels[selservoobj][1]|length}}" type="text" value="{{servo_channels[selservoobj][1]}}" /> servo's defined below in <i>'channel# : short description'</i> data pairs</td></tr></table>
+	    <table class="inputtable" cellspacing="0" cellpadding="0" align="center" style="margin: 0px;">
+		<tr>
+		{% for i in range(2, 18) %}
+            <td><input style="padding: 0px 0px;" name="cfield{{i}}" size="{{servo_channels[selservoobj][i]|length}}" type="text" value="{{servo_channels[selservoobj][i]}}" /></td>
+		{%endfor%}
+		</tr>
+		<tr>
+		{% for i in range(18, 34) %}
+            <td><input style="padding: 0px 0px;" name="cfield{{i}}" size="{{servo_channels[selservoobj][i]|length}}" type="text" value="{{servo_channels[selservoobj][i]}}" /></td>
+		{%endfor%}
+		</tr>
+		</table>
+		<input name="submit" type="submit" value="update the servo channel data" />
+	  	</form>
+		{% endif %}
+     </div>
+
+     <div style="margin-top: 0%; width: auto; padding-left: 10%; padding-right: 10%;">
+		<h5 align="center" style="margin-bottom: 0px; ">{{lenservoact-1}} {% if lenservoact == 2 %}action{% else %}actions{% endif %} defined for this object</h5>
+
+    {% if lenservoact == 1 %}
+	  	<form action="/maintenance/obj_servo_action_create" method="get" >
+	    <table class="inputtable" cellspacing="0" cellpadding="0" align="center" style="margin: 0px;">
+		<tr><td><b>servo</b></td><td><b>ref</b></td><td><b>move1</b></td><td><b>sound file1 name</b></td><td><b>pause1</b></td><td><b>move2</b></td><td><b>sound file2 name</b></td><td><b>pause2</b></td><td><b>repeat</b></td><td>&nbsp;</td></tr><tr>
+			<td><input style="padding: 0px 0px;" name="field0" size="1" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field1" size="1" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field2" size="1" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field3" size="12" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field4" size="1" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field5" size="1" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field6" size="12" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field7" size="1" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field8" size="1" type="text"  /></td>
+			<td><input name="submit" type="submit" value="enter new action" /></td></tr></table>
+	  	</form>
+    {% else %}
+	    <table class="inputtable" cellspacing="0" cellpadding="0" align="center" style="margin: 0px;">
+		<tr><td><b>servo</b></td><td><b>ref</b></td><td><b>move1</b></td><td><b>sound file1 name</b></td><td><b>pause1</b></td><td><b>move2</b></td><td><b>sound file2 name</b></td><td><b>pause2</b></td><td><b>repeat</b></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		{%for i in range(1, lenservoact) %}
+			{% if i == selservoact %}
+		<tr bgcolor="33FF00"><td><b>{{obseq[i][0]}}</b></td><td><b>{{obseq[i][1]}}</b></td><td><b>{{obseq[i][2]}}</b></td><td><b>{{obseq[i][3]}}</b></td><td><b>{{obseq[i][4]}}</b></td><td><b>{{obseq[i][5]}}</b></td><td><b>{{obseq[i][6]}}</b></td><td><b>{{obseq[i][7]}}</b></td><td><b>{{obseq[i][8]}}</b></td><td><a class="smallbutton button-primary u-full-width" title="click to edit this action" href="/maintenance/obj_servo_action_edit{{i}}">edit</a></td><td><a class="smallbutton button-primary u-full-width" title="click to delete this action" href="/maintenance/obj_servo_action_delete{{i}}">del</a></td><td><a class="smallbutton button-primary u-full-width" title="click to test run this action" href="/maintenance/obj_servo_action_test{{i}}">test</a></td></tr>
+			{% else %}
+		<tr bgcolor="FFFFFF"><td><b>{{obseq[i][0]}}</b></td><td><b>{{obseq[i][1]}}</b></td><td><b>{{obseq[i][2]}}</b></td><td><b>{{obseq[i][3]}}</b></td><td><b>{{obseq[i][4]}}</b></td><td><b>{{obseq[i][5]}}</b></td><td><b>{{obseq[i][6]}}</b></td><td><b>{{obseq[i][7]}}</b></td><td><b>{{obseq[i][8]}}</b></td><td><a class="smallbutton button-primary u-full-width" title="click to edit this action" href="/maintenance/obj_servo_action_edit{{i}}">edit</a></td><td><a class="smallbutton button-primary u-full-width" title="click to delete this action" href="/maintenance/obj_servo_action_delete{{i}}">del</a></td><td><a class="smallbutton button-primary u-full-width" title="click to test run this action" href="/maintenance/obj_servo_action_test{{i}}">test</a></td></tr>
+			{% endif %}
+		{%endfor%}
+		 </table>
+	
+	  	<form action="/maintenance/obj_servo_action_addnew" method="get" >
+      		<div  style="margin-top: 30px;  padding-left: 14%; padding-right: 15%; text-align: center; font-size: 14px; width: 70%; ">
+            <b>new action#:</b> <input name="newactnum" size="3" type="text"  />
+        &nbsp; &nbsp; <input name="submit" type="submit" value='insert new action' /> &nbsp;
+      		</div>
+	  	</form>	
+	
+	
+	
+	{% endif %}
+
+
+	 </div>
+	  
+	{% endif %}	
+	
+	{% if selservoact > 0 %}	
+
+      <div style="margin-top: 5px; width: auto; padding-left: 2%; padding-right: 2%;">
+      <h5 align="center" style="margin-top: 15px; margin-bottom: 0px;">action line{{selservoact}} update form</h5>	  
+      <div style="margin-top: 0%; width: auto; font-size: 1em; font-weight: bold; ">
+	    <table class="inputtable" cellspacing="0" cellpadding="0" align="center" style="margin: 0px;">
+
+	  	<form action="/maintenance/obj_servo_action_update" method="get" >
+		<tr>
+		{%for i in range(0, 9)%}
+            <td><input style="padding: 0px 0px;" name="field{{i}}" size="{{obseq[selservoact][i]|length}}" type="text" value="{{obseq[selservoact][i]}}" /></td>
+		{%endfor%}
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;<input name="submit" type="submit" value="update" /></td>
+		</tr>
+	  	</form>
+		<tr><td><b>servo</b></td><td><b>ref</b></td><td><b>move1</b></td><td><b>sound file1 name</b></td><td><b>pause1</b></td><td><b>move2</b></td><td><b>sound file2 name</b></td><td><b>pause2</b></td><td><b>repeat</b></td><td><b>action edit</b></td></tr>
+		</table>
+	  </div>
+		
+	{% endif %}
+
+    </div>
+	
+    <!-- 4th row of the servo options interface:            -->
+	<div class="fourth row" style="margin-top: 0;" >
+
+    </div>
+	
+	<hr>
+	
+	{% include 'back_to_obj_type_choose.html' %}
+
+    {% include 'select_insert.html' %}
+
+  </div>
+
+{% endblock %}

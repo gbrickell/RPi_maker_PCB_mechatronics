@@ -1,0 +1,24 @@
+  <!-- version: 1.00 -->
+  <!-- file name: header_insert.html -->
+  <!-- controlBox Flask web interface - a 'partial' template for insertion in other pages  -->
+  <!--  to provide the HTML for the 'header' area of each web page -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220124 -->
+
+  	<!-- header area at the top of the page content-->
+	<header>
+      <div class="container">
+       <div class="divcenter">
+	   	<div style="width: auto; height: 120px; padding-left: 0; padding-right: 20px; margin-left: auto; margin-right: 0px; ">
+		     <img src="{{ url_for('static', filename='images/elephant_mechatronic_20220206_101046422_300w.jpg') }}" 
+			 height="120px" style="display: block; float: right;"></div>
+	  	<div style="margin-top: 1%; width: auto; padding-left: 10px; padding-right: 10px; text-align: center; min-width: 350px;">
+	    <h3>Mechatronics<br>Maker Kit v5.0 build</h3>		
+		<h4>{{ title }}</h4>
+		</div>
+		<div style="width: auto; height: 120px; padding-left: 20px; padding-right: 0px; margin-left: 0px; margin-right: auto;">
+		     <img src="{{ url_for('static', filename='images/RPi_kits_PCB05_20210419_160549156_900w.jpg') }}" 
+			 height="120px" style="display: block"></div>
+	   </div>
+	  </div>
+    </header>

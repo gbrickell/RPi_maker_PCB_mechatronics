@@ -1,0 +1,62 @@
+  <!-- version: 1.00 -->
+  <!-- file name: stepper_options.html -->
+  <!-- mechatronic Flask web interface - a page template for selecting and running a stepper motor option  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses a 'partial' to insert the common HTML for returning to the select options -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220124 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the stepper options interface: list and select one of the currently defined stepper objects    -->
+	<div class="first row">
+      <h5 align="center" style="margin-bottom: 0px;">List of {{stepperobjs}} stepper motor mechatronic objects</h5>
+      <div style="margin-top: 0%; width: auto; padding-left: 10%; padding-right: 10%;">
+	    <table align="center" style="margin-bottom: 0px;">
+		<tr><td align="center"><b>object#</b></td><td><b>object name</b></td><td><b>object description</b></td><td><b>&nbsp;</b></td></tr>
+		{%for i in range(1, stepperobjs+1)%}
+			{% if i == selstepobj %}
+			<tr><td align="center" bgcolor="#33FF00">{{i}}</td><td bgcolor="#33FF00">{{step_options[i][0]}}</td><td bgcolor="#33FF00">{{step_options[i][3]}}</td><td bgcolor="#33FF00"><a class="button button-primary u-full-width" href="/stepper/stepper_choose{{i}}">select</a></td></tr>
+			{% else %}
+			<tr><td align="center" bgcolor="#FFFFFF">{{i}}</td><td bgcolor="#FFFFFF">{{step_options[i][0]}}</td><td bgcolor="#FFFFFF">{{step_options[i][3]}}</td><td bgcolor="#FFFFFF"><a class="button button-primary u-full-width" href="/stepper/stepper_choose{{i}}">select</a></td></tr>
+			{% endif %}
+		{%endfor%}	  
+		</table>	  
+	  </div>
+	  
+    </div>
+
+    <!-- 2nd row of the stepper options interface: run or stop the object   -->
+	<div class="second row" style="margin-top: 0;">
+
+      {% if warnweb|length > 0 %}
+	  <div style="margin-top: 3%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        <h5 style="margin-bottom: 0;">{{warnweb}}</h5>
+      </div>
+	  {% endif %}
+
+	  {% if selstepobj > 0 %}
+      <div class="one-quarter column" style="margin-top: 1%; margin-left: 18.666%;">
+        <a class="button button-primary u-full-width" href="/stepper/stepper_run">Go</a>
+      </div>
+	  <div class="one-quarter column" style="margin-top: 1%; margin-left: 18.666%;">
+        <a class="button button-primary u-full-width" href="/stepper/stepper_stop">Stop</a>
+      </div>
+	  {% endif %}
+
+    </div>
+
+    <!-- 3rd row of the stepper options interface:  operation-->
+	<div class="third row" style="margin-top: 0;">
+
+    </div>
+
+    {% include 'select_insert.html' %}
+
+  </div>
+
+{% endblock %}

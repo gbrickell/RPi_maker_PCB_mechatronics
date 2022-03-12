@@ -1,0 +1,2 @@
+step direction speed  sound_file_name time_ms play
+1    anticlock full   nothing         all     once

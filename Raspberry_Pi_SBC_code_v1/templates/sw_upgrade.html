@@ -1,0 +1,43 @@
+  <!-- version: 1.00 -->
+  <!-- file name: sw_upgrade.html -->
+  <!-- mechatronic Flask web interface - a page template for selecting and running the various software upgrade options  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses a 'partial' to insert the common HTML for returning to the select options -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220124 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the servo options interface: list and select one of the currently defined servo objects    -->
+	<div class="first row">
+
+	  
+    </div>
+
+    <!-- 2nd row of the servo options interface: run or stop the object   -->
+	<div class="second row" style="margin-top: 0;">
+
+      {% if warnweb|length > 0 %}
+	  <div style="margin-top: 1%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        <h5 style="margin-bottom: 0;">{{warnweb}}</h5>
+      </div>
+	  {% endif %}
+
+    </div>
+
+    <!-- 3rd row of the servo options interface:            -->
+	<div class="third row" style="margin-top: 0;" >
+
+    </div>
+	
+	{% include 'back_to_maintain.html' %}
+
+    {% include 'select_insert.html' %}
+
+  </div>
+
+{% endblock %}

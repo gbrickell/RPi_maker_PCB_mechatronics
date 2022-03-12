@@ -1,0 +1,146 @@
+  <!-- version: 1.00 -->
+  <!-- file name: obj_type_stepper.html -->
+  <!-- mechatronic Flask web interface - a page template for selecting and editing the action file of a stepper motor object  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses a 'partial' to insert the common HTML for returning to the select options -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220127 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the stepper object edit interface: list and opt to edit one of the currently defined stepper objects    -->
+	<div class="first row">
+      <h5 align="center" style="margin-bottom: 0px;">List of {{stepperobjs}} stepper motor mechatronic objects</h5>
+      <div style="margin-top: 0%; width: auto; padding-left: 10%; padding-right: 10%;">
+	    <table align="center" style="margin-bottom: 0px;">
+		<tr><td align="center"><b>object#</b></td><td><b>object name</b></td><td><b>object description</b></td><td><b>&nbsp;</b></td></tr>
+		{%for i in range(1, stepperobjs+1)%}
+			{% if i == selstepobj %}
+			<tr><td  align="center" bgcolor="#33FF00">{{i}}</td><td  bgcolor="#33FF00">{{stepcopy_objects[i][0]}}</td><td bgcolor="#33FF00">{{stepcopy_objects[i][3]}}</td><td bgcolor="#33FF00"><a class="button button-primary u-full-width" title="click to edit the details this stepper object" href="/maintenance/obj_stepper_edit{{i}}">edit</a></td></tr>
+			{% else %}
+			<tr><td align="center" bgcolor="FFFFFF">{{i}}</td><td  bgcolor="FFFFFF">{{stepcopy_objects[i][0]}}</td><td bgcolor="FFFFFF">{{stepcopy_objects[i][3]}}</td><td bgcolor="FFFFFF"><a class="button button-primary u-full-width" title="click to edit the details this stepper object" href="/maintenance/obj_stepper_edit{{i}}">edit</a></td></tr>
+			{% endif %}
+		{%endfor%}	  
+		</table>	  
+	  </div>
+	  
+    </div>
+
+	
+    <!-- 2nd row of the stepper options interface:    add a new stepper  object        -->
+	<div class="second row" style="margin-top: 0;" >
+
+	  {% if selstepobj == 0 %}
+      	<h5 style="margin-top: 15px; margin-bottom: 0px; padding-left: 135px;">add a new stepper object:</h5>	  
+	  		<form action="/maintenance/obj_stepper_new" method="get" >
+      			<div  style="margin-top: 3px;  padding-left: 14%; padding-right: 15%; font-size: 14px; width: 70%; ">
+           			 new object name: <input name="newobjname" size="20" type="text" />&nbsp;&nbsp; sequence file: <input name="newseqfile" size="30" type="text" />
+					 <br/> new object description: <input name="newobjdesc" size="40" type="text" />&nbsp;&nbsp;&nbsp;&nbsp;
+					 <input name="submit" type="submit" value='submit new stepper object' />
+      			</div>
+	  		</form>	
+
+      	<h5 style="margin-bottom: 0px; padding-left: 135px;">clone an existing stepper motor object:</h5>	  
+	  		<form action="/maintenance/obj_stepper_clone" method="get" >
+      			<div  style="margin-top: 3px;  padding-left: 14%; padding-right: 15%; font-size: 14px; width: 70%; ">
+           			 object# to clone: <input name="cloneobjnum" size="3" type="text" />&nbsp;&nbsp; new object name: <input name="cloneobjname" size="20" type="text" />
+                     <br/>new sequence file name: <input name="cloneseqfile" size="30" type="text" />
+					 <br/>new object description: <input name="cloneobjdesc" size="40" type="text" />&nbsp;&nbsp;&nbsp;&nbsp;
+					 <input name="submit" type="submit" value='submit clone details' /> 
+      			</div>
+	  		</form>	
+	  {% endif %}
+
+    </div>
+
+
+    <!-- 3rd row of the stepper options interface: edit the object   -->
+	<div class="third row" style="margin-top: 0;">
+
+    {% if warnweb|length > 0 %}
+	  <div style="margin-top: 1%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        <h5 style="margin-bottom: 0;">{{warnweb}}</h5>
+      </div>
+	{% endif %}
+
+	{% if selstepobj > 0 %}
+
+     <div style="margin-top: 0%; width: auto; padding-left: 10%; padding-right: 10%;">
+		<h5 align="center" style="margin-bottom: 0px; ">{{lenstepact-1}} {% if lenstepact == 2 %}action{% else %}actions{% endif %} defined for this object</h5>
+
+    {% if lenstepact == 1 %}
+	  	<form action="/maintenance/obj_stepper_action_create" method="get" >
+	    <table class="inputtable" cellspacing="0" cellpadding="0" align="center" style="margin: 0px;">
+		<tr><td><b>stepper</b></td><td><b>direction</b></td><td><b>speed</b></td><td><b>sound file name</b></td><td><b>time (ms)</b></td><td><b>play</b></td><td><b>action edit</b></td></tr>
+			<td><input style="padding: 0px 0px;" name="field0" size="1" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field1" size="1" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field2" size="1" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field3" size="12" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field4" size="1" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field5" size="1" type="text"  /></td>
+			<td><input name="submit" type="submit" value="enter new action" /></td></tr></table>
+	  	</form>
+    {% else %}
+	    <table align="center" style="margin-bottom: 0px;">
+		<tr><td><b>stepper</b></td><td><b>direction</b></td><td><b>speed</b></td><td><b>sound file name</b></td><td><b>time (ms)</b></td><td><b>play</b></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		{%for i in range(1, stepseq|length)%}
+			{% if i == selstepact %}
+		<tr bgcolor="33FF00"></td><td><b>{{stepseq[i][0]}}</b></td><td><b>{{stepseq[i][1]}}</b></td><td><b>{{stepseq[i][2]}}</b></td><td><b>{{stepseq[i][3]}}</b></td><td><b>{{stepseq[i][4]}}</b></td><td><b>{{stepseq[i][5]}}</b></td><td><a class="smallbutton button-primary u-full-width" title="click to edit this action" href="/maintenance/obj_stepper_action_edit{{i}}">edit</a></td><td><a class="smallbutton button-primary u-full-width" title="click to test run this action" href="/maintenance/obj_stepper_action_test{{i}}">test</a></td><td><a class="smallbutton button-primary u-full-width" title="click to stop the test" href="/maintenance/obj_stepper_action_stoptest">stop</a></td></tr>
+			{% else %}
+		<tr bgcolor="FFFFFF"></td><td><b>{{stepseq[i][0]}}</b></td><td><b>{{stepseq[i][1]}}</b></td><td><b>{{stepseq[i][2]}}</b></td><td><b>{{stepseq[i][3]}}</b></td><td><b>{{stepseq[i][4]}}</b></td><td><b>{{stepseq[i][5]}}</b></td><td><a class="smallbutton button-primary u-full-width" title="click to edit this action" href="/maintenance/obj_stepper_action_edit{{i}}">edit</a></td><td><a class="smallbutton button-primary u-full-width" title="click to test run this action" href="/maintenance/obj_stepper_action_test{{i}}">test</a></td><td><a class="smallbutton button-primary u-full-width" title="click to stop the test" href="/maintenance/obj_stepper_action_stoptest">stop</a></td></tr>
+			{% endif %}
+		{%endfor%}
+		 </table>
+	{% endif %}
+
+	 </div>
+	  
+	{% endif %}	
+	
+	{% if selstepact > 0 %}	
+
+      <div style="margin-top: 5px; width: auto; padding-left: 10%; padding-right: 10%;">
+      <h5 align="center" style="margin-top: 15px; margin-bottom: 0px;">action line{{selstepact}} update form</h5>	  
+      <div style="margin-top: 0%; width: auto; font-size: 1em; font-weight: bold; ">
+	    <table class="actiontable" cellspacing="0px" cellpadding="1px" align="center" style="margin-left: 25px; margin-right: 25px;">
+
+	  	<form action="/maintenance/obj_stepper_action_update" method="get" >
+		<tr>
+		{%for i in range(0, 6)%}
+            <td><input style="padding: 0px 0px;" name="field{{i}}" 
+			{% if stepseq[selstepact][i]|length > 1 %}
+			size="{{stepseq[selstepact][i]|length-1}}" 
+			{% else %}
+			size="1"
+			{% endif %}
+			type="text" value="{{stepseq[selstepact][i]}}" ></td>
+		{%endfor%}
+        <td>&nbsp;<input name="submit" type="submit" value="update" /></td>
+		</tr>
+	  	</form>
+		<tr><td><b>stepper</b></td><td><b>direction</b></td><td><b>speed</b></td><td><b>sound file name</b></td><td><b>time (ms)</b></td><td><b>play</b></td><td><b>action edit</b></td></tr>
+		</table>
+	  </div>
+		
+	{% endif %}
+
+    </div>
+	
+    <!-- 4th row of the stepper options interface:            -->
+	<div class="fourth row" style="margin-top: 0;" >
+
+    </div>
+	
+	<hr>
+	
+	{% include 'back_to_obj_type_choose.html' %}
+
+    {% include 'select_insert.html' %}
+ 
+  </div>
+
+{% endblock %}

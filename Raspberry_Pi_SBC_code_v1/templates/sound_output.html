@@ -1,0 +1,68 @@
+  <!-- version: 1.00 -->
+  <!-- file name:  sound_output.html -->
+  <!-- mechatronics Flask web interface - a page template for the main option selection  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses the stop web inserted 'partial' -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220125 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the selection interface: title/comment text etc.  -->
+	<div class="first row">
+
+	  {% if boxaudio != "HDMI cable" %}
+	  <div style="margin-top: 1%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">	
+        <p style="margin-bottom: 20px; font-size: 18px;">Sound output is set to the local analog port, but if an HDMI screen<br>
+		                                                 with sound e.g. a TV, is connected to the Raspberry Pi / Maker Kit<br>
+										                 running the mechatronic then use the button below to select HDMI output</p>
+        <h5 style="margin-bottom: 20px;">Sound output currently set to: <i>{{ boxaudio }}</i></h5>
+      {% if warnweb|length > 0 %}
+        <h5 style="margin-bottom: 0;">{{warnweb}}</h5>
+	  {% endif %}
+      </div>
+	  {% endif %}
+
+	  {% if boxaudio != "local analog port" %}
+	  <div style="margin-top: 1%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">	
+        <p style="margin-bottom: 20px; font-size: 18px;">Sound output is set to an HDMI screen assumed to be connected to the <br>
+		                                                 Raspberry Pi / Maker Kit running the mechatronic, but if the local analog<br>
+										                 port is preferred then use the button below to select this</p>
+        <h5 style="margin-bottom: 20px;">Sound output currently set to: <i>{{ boxaudio }}</i></h5>
+      {% if warnweb|length > 0 %}
+        <h5 style="margin-bottom: 0;">{{warnweb}}</h5>
+	  {% endif %}
+      </div>
+	  {% endif %}
+
+    </div>
+
+    <!-- 2nd row of the selection interface: local analog port-->
+    {% if boxaudio != "local analog port" %}
+	<div class="second row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/maintenance/sound_output0">set sound output to local analog port</a>
+      </div>
+    </div>
+	{% endif %}
+
+    <!-- 3rd row of the selection interface: sound hdmi/analog selection  -->
+    {% if boxaudio != "HDMI cable" %}
+	<div class="third row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/maintenance/sound_output1">set sound output to HDMI cable</a>
+      </div>
+    </div>
+	{% endif %}
+
+	{% include 'back_to_maintain.html' %}
+
+    {% include 'select_insert.html' %}
+
+  </div>
+
+{% endblock %}

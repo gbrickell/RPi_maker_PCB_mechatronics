@@ -1,0 +1,5 @@
+motor direction %speed run_duration(sec)  sound_file_name      play_time_ms play
+M1    forwards  90        15              MagicRoundabout.mp3  all          once
+M1    stop      n/a       5               nothing              all          once
+M1    backwards 70        10              MagicRoundabout.mp3  all          once
+M1    stop      n/a       5               nothing              all          once

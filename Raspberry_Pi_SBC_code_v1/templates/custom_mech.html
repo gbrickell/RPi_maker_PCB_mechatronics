@@ -1,0 +1,52 @@
+  <!-- version: 1.00 -->
+  <!-- file name: custom_mech.html -->
+  <!-- mechatronic Flask web interface - a page template for selecting various custom mechatronic options  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses a 'partial' to insert the common HTML for returning to the select options -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220124 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the custom mechatronic interface: -->
+	<div class="first row">
+
+      <h5 align="center">List of {{custobjs}} custom mechatronic servo objects</h5>
+      <div style="margin-top: 3%; width: auto; padding-left: 15%; padding-right: 15%;">
+	    <table align="center">
+		<tr><td align="center"><b>object#</b></td><td><b>object name</b></td><td><b>object description</b></td><td><b>&nbsp;</b></td></tr>
+
+		{%for i in range(1, custobjs+1)%}
+		<tr><td>{{i}}</td> <td >{{cust_objects[i][0]}}</td><td>{{cust_objects[i][3]}}</td>
+			<td><a class="button button-primary u-full-width" href="/custom/custom{{i}}">select</a></td></tr>
+		{%endfor%}
+
+		</table>	  
+	  </div>
+
+    </div>
+
+    <!-- 2nd row of the custom mechatronic interface: -->
+	<div class="second row">
+
+    </div>
+
+    <!-- 3rd row of the custom mechatronic interface: -->
+	<div class="third row">
+
+    </div>
+
+    <!-- 4th row of the custom mechatronic interface: -->
+	<div class="fourth row">
+
+    </div>
+
+    {% include 'select_insert.html' %}
+	
+  </div>
+
+{% endblock %}

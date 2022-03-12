@@ -1,0 +1,80 @@
+  <!-- version: 1.00 -->
+  <!-- file name: sound_options.html -->
+  <!-- mechatronics Flask web interface - a page template for selecting and running the various sound management options  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses 'partials' to insert common HTML e.g. for returning to the select options -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220125 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the sound options interface: list and select one of the currently defined sound files    -->
+	<div class="first row">
+	  <h5 align="center" style="margin-bottom: 0px;">List of the current {{numsoundfiles}} sound files</h5>
+      <div style="margin-top: 0%; width: auto; padding-left: 10%; padding-right: 10%;">
+	    <table align="center" style="margin-bottom: 0px;">
+		<tr><td align="center"><b>file#</b></td><td><b>file name</b></td><td><b>&nbsp;</b></td></tr>
+		{%for i in range(1, numsoundfiles+1)%}
+			{% if i == selsoundfile %}
+			<tr><td align="center" bgcolor="#33FF00">{{i}}</td><td  bgcolor="#33FF00">{{soundfiles[i-1]}}</td><td bgcolor="#33FF00"><a class="button button-primary u-full-width" href="/maintenance/sound_choose{{i}}">select</a></td></tr>
+			{% else %}
+			<tr><td align="center" bgcolor="FFFFFF">{{i}}</td><td  bgcolor="FFFFFF">{{soundfiles[i-1]}}</td><td bgcolor="FFFFFF"><a class="button button-primary u-full-width" href="/maintenance/sound_choose{{i}}">select</a></td></tr>
+			{% endif %}
+		{%endfor%}	  
+		</table>	  
+	  </div>
+  
+    </div>
+
+    <!-- 2nd row of the sound options interface: play or stop the selected sound file   -->
+	<div class="second row" style="margin-top: 0;">
+
+      {% if warnweb|length > 0 %}
+	  <div style="margin-top: 1%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        <h5 style="margin-bottom: 0;">{{warnweb}}</h5>
+      </div>
+	  {% endif %}
+
+      {% if selsoundfile > 0 %}
+      <div class="one-quarter column" style="margin-top: 1%; margin-left: 18.666%;">
+        <a class="button button-primary u-full-width" href="/maintenance/sound_play">Play</a>
+      </div>
+	  <div class="one-quarter column" style="margin-top: 1%; margin-left: 18.666%;">
+        <a class="button button-primary u-full-width" href="/maintenance/sound_stop">Stop</a>
+      </div>
+	  {% endif %}
+
+    </div>
+
+    <!-- 3rd row of the sound options interface:  upload a new sound file     -->
+	<hr>
+	<div class="third row" style="margin-top: 10px;" >
+
+      <h5 align="center">Upload a new sound .mp3 or .wav file</h5>	  
+      <div style="margin-top: 0%; width: auto; padding-left: 10%; padding-right: 10%; text-align: center;">
+
+		<form method="post" action="/maintenance/sound_upload" enctype="multipart/form-data">
+    		<dl>
+				<p><input type="file" name="file" autocomplete="off" required></p>
+    		</dl>
+    			<p><input type="submit" value="Upload"></p>
+		</form>
+
+	  </div>
+
+    </div>
+
+	<hr>
+
+	{% include 'back_to_maintain.html' %}
+
+    {% include 'select_insert.html' %}
+
+
+  </div>
+
+{% endblock %}

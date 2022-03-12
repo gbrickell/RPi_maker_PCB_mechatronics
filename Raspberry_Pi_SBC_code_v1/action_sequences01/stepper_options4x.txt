@@ -1,0 +1,6 @@
+option_name       reference  stepper_control_file     object_description
+magic_roundabout  1          magic_roundabout04.txt   clockwise_rotation_with_Magic_Roundabout_music
+step_fwd_full     2          stepper_fwd_full04.txt   full_wave_clockwise_rotation_with_no_music
+step_fwd_half     3          stepper_fwd_half04.txt   half_wave_clockwise_rotation_with_no_music
+step_back_full    4          stepper_back_full04.txt  full_wave_anti-clockwise_rotation_with_no_music
+step_back_half    5          stepper_back_half04.txt  half_wave_anti-clockwise_rotation_with_no_music

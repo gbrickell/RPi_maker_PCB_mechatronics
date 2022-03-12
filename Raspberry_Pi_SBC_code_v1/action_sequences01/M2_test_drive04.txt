@@ -1,0 +1,5 @@
+motor direction %speed run_duration(sec)  sound_file_name play_time_ms play
+M2    forwards  100       5               nothing         all          once
+M2    stop      n/a       3               nothing         all          once
+M2    backwards 70        5               nothing         all          once
+M2    stop      n/a       0               nothing         all          once

@@ -1,0 +1,4 @@
+servo_object num  c  desc  c  desc  c  desc  c  desc  c  desc  c  desc  c  desc  c  desc  c  desc  c  desc  c  desc  c  desc  c  desc  c  desc  c  desc  c  desc  
+elephant01    2   0  head  1  tail  -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     
+gorilla01     1  15  body  -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     
+crocodile01   2   0  jaw   1  tail  -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     -  -     

@@ -1,0 +1,3 @@
+object_name  reference   custom_action_file  custom_object_description
+semaphore01   1          semaphore01.txt     four_servo:_shoulders_and_elbows_semaphore_flags
+robot_arm01   2          robot_arm01.txt     four_servo_XYZ_and_gripper_robot_arm

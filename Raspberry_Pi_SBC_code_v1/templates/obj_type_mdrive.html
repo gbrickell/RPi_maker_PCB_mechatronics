@@ -1,0 +1,153 @@
+  <!-- version: 1.00 -->
+  <!-- file name: obj_type_mdrive.html -->
+  <!-- controlBox Flask web interface - a page template for selecting and editing the action file of a drive motor object  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses a 'partial' to insert the common HTML for returning to the select options -->
+  <!-- Author: Enmore -->
+  <!-- Date: 200224 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the mdrive object edit interface: list and opt to edit one of the currently defined mdrive objects    -->
+	<div class="first row">
+      <h5 align="center" style="margin-bottom: 0px;">List of {{mdriveobjs}} drive motor mechatronic objects</h5>
+      <div style="margin-top: 0%; width: auto; padding-left: 10%; padding-right: 10%;">
+	    <table align="center" style="margin-bottom: 0px;">
+		<tr><td align="center"><b>object#</b></td><td><b>object name</b></td><td><b>object description</b></td><td>&nbsp;</td></tr>
+		{%for i in range(1, mdriveobjs+1)%}
+			{% if i == selmdriveobj %}
+			<tr><td  align="center" bgcolor="#33FF00">{{i}}</td><td  bgcolor="#33FF00">{{mdrivecopy_objects[i][0]}}</td><td bgcolor="#33FF00">{{mdrivecopy_objects[i][3]}}</td><td bgcolor="#33FF00"><a class="button button-primary u-full-width" title="click to edit the details of this drive motor object" href="/maintenance/obj_mdrive_edit{{i}}">edit</a></td></tr>
+			{% else %}
+			<tr><td align="center" bgcolor="FFFFFF">{{i}}</td><td  bgcolor="FFFFFF">{{mdrivecopy_objects[i][0]}}</td><td bgcolor="FFFFFF">{{mdrivecopy_objects[i][3]}}</td><td bgcolor="FFFFFF"><a class="button button-primary u-full-width" title="click to edit the details of this drive motor object" href="/maintenance/obj_mdrive_edit{{i}}">edit</a></td></tr>
+			{% endif %}
+		{%endfor%}	  
+		</table>	  
+	  </div>
+	  
+    </div>
+
+
+	
+    <!-- 2nd row of the mdrive options interface:    add a new drive motor object        -->
+	<div class="second row" style="margin-top: 0;" >
+
+	  {% if selmdriveobj == 0 %}
+      	<h5 style="margin-top: 15px; margin-bottom: 0px; padding-left: 135px;">add a new drive motor object:</h5>	  
+	  		<form action="/maintenance/obj_mdrive_new" method="get" >
+      			<div  style="margin-top: 3px;  padding-left: 14%; padding-right: 15%; font-size: 14px; width: 70%; ">
+           			 new object name: <input name="newobjname" size="20" type="text" />&nbsp;&nbsp; sequence file: <input name="seqfile" size="30" type="text" />
+					 <br/> new object description: <input name="newobjdesc" size="40" type="text" />&nbsp;&nbsp;&nbsp;&nbsp;
+					 <input name="submit" type="submit" value='submit new drive motor object' />
+      			</div>
+	  		</form>	
+
+      	<h5 style="margin-bottom: 0px; padding-left: 135px;">clone an existing drive motor object:</h5>	  
+	  		<form action="/maintenance/obj_mdrive_clone" method="get" >
+      			<div  style="margin-top: 3px;  padding-left: 14%; padding-right: 15%; font-size: 14px; width: 70%; ">
+           			 object# to clone: <input name="clonenum" size="3" type="text" />&nbsp;&nbsp; new object name: <input name="clonename" size="20" type="text" />
+                     <br/>new sequence file name: <input name="cloneseqfile" size="30" type="text" />
+					 <br/>new object description: <input name="clonedesc" size="40" type="text" />&nbsp;&nbsp;&nbsp;&nbsp;
+					 <input name="submit" type="submit" value='submit clone details' /> 
+      			</div>
+	  		</form>	
+	  {% endif %}
+
+    </div>
+
+
+    <!-- 3rd row of the mdrive options interface: edit an existing mdrive object   -->
+	<div class="third row" style="margin-top: 0;">
+
+    {% if warnweb|length > 0 %}
+	  <div style="margin-top: 1%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        <h5 style="margin-bottom: 0;">{{warnweb}}</h5>
+      </div>
+	{% endif %}
+
+	 <!-- if a mdrive object has been selected   -->
+	{% if selmdriveobj > 0 %}
+
+     <div style="margin-top: 0%; width: auto; padding-left: 5%; padding-right: 5%;">
+		<h5 align="center" style="margin-bottom: 0px; ">{{lenmdriveact-1}} {% if lenmdriveact == 2 %}action{% else %}actions{% endif %} defined for this object</h5>
+
+    {% if lenmdriveact == 1 %}
+	  	<form action="/maintenance/obj_mdrive_action_create" method="get" >
+	    <table class="inputtable" cellspacing="0" cellpadding="0" align="center" style="margin: 0px;">
+		<tr><td><b>motor</b></td><td><b>direction</b></td><td><b>%speed</b></td><td><b>run_duration(sec)</b></td><td><b>sound_file_name</b></td><td><b>play_time_ms</b></td><td><b>play</b></td><td>&nbsp;</td></tr><tr>
+			<td><input style="padding: 0px 0px;" name="field0" size="1" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field1" size="4" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field2" size="3" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field3" size="12" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field4" size="12" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field5" size="8" type="text"  /></td>
+			<td><input style="padding: 0px 0px;" name="field6" size="3" type="text"  /></td>
+			<td><input name="submit" type="submit" value="enter new action" /></td></tr></table>
+	  	</form>
+    {% else %}
+	    <table class="inputtable" cellspacing="0" cellpadding="0" align="center" style="margin: 0px;">
+		<tr><td><b>motor</b></td><td><b>direction</b></td><td><b>%speed</b></td><td><b>run_duration(sec)</b></td><td><b>sound_file_name</b></td><td><b>play_time_ms</b></td><td><b>play</b></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		{%for i in range(1, lenmdriveact) %}
+			{% if i == selmdriveact %}
+		<tr bgcolor="33FF00"><td><b>{{mdriveseq[i][0]}}</b></td><td><b>{{mdriveseq[i][1]}}</b></td><td><b>{{mdriveseq[i][2]}}</b></td><td><b>{{mdriveseq[i][3]}}</b></td><td><b>{{mdriveseq[i][4]}}</b></td><td><b>{{mdriveseq[i][5]}}</b></td><td><b>{{mdriveseq[i][6]}}</b></td><td><a class="smallbutton button-primary u-full-width" title="click to edit this action" href="/maintenance/obj_mdrive_action_edit{{i}}">edit</a></td><td><a class="smallbutton button-primary u-full-width" title="click to delete this action" href="/maintenance/obj_mdrive_action_delete{{i}}">del</a></td><td><a class="smallbutton button-primary u-full-width" title="click to test run this action" href="/maintenance/obj_mdrive_action_test{{i}}">test</a></td></tr>
+			{% else %}
+		<tr bgcolor="FFFFFF"><td><b>{{mdriveseq[i][0]}}</b></td><td><b>{{mdriveseq[i][1]}}</b></td><td><b>{{mdriveseq[i][2]}}</b></td><td><b>{{mdriveseq[i][3]}}</b></td><td><b>{{mdriveseq[i][4]}}</b></td><td><b>{{mdriveseq[i][5]}}</b></td><td><b>{{mdriveseq[i][6]}}</b></td><td><a class="smallbutton button-primary u-full-width" title="click to edit this action" href="/maintenance/obj_mdrive_action_edit{{i}}">edit</a></td><td><a class="smallbutton button-primary u-full-width" title="click to delete this action" href="/maintenance/obj_mdrive_action_delete{{i}}">del</a></td><td><a class="smallbutton button-primary u-full-width" title="click to test run this action" href="/maintenance/obj_mdrive_action_test{{i}}">test</a></td></tr>
+			{% endif %}
+		{%endfor%}
+		 </table>
+
+	  	<form action="/maintenance/obj_mdrive_action_addnew" method="get" >
+      		<div  style="margin-top: 30px;  padding-left: 14%; padding-right: 15%; text-align: center; font-size: 14px; width: 70%; ">
+            <b>new action#:</b> <input name="newactnum" size="3" type="text"  />
+        &nbsp; &nbsp; <input name="submit" type="submit" value='insert new action' /> &nbsp;
+      		</div>
+	  	</form>	
+
+	{% endif %}
+	
+	 </div>
+	  
+	{% endif %}	
+	
+	{% if selmdriveact > 0 %}	
+
+      <div style="margin-top: 5px; width: auto; padding-left: 2%; padding-right: 2%;">
+      <h5 align="center" style="margin-top: 15px; margin-bottom: 0px;">action line{{selmdriveact}} update form</h5>	  
+      <div style="margin-top: 0%; width: auto; font-size: 1em; font-weight: bold; ">
+	    <table class="inputtable" cellspacing="0" cellpadding="0" align="center" style="margin: 0px;">
+
+	  	<form action="/maintenance/obj_mdrive_action_update" method="get" >
+		<tr>
+		{%for i in range(0, 7)%}
+            <td><input style="padding: 0px 0px;" name="field{{i}}" size="{{mdriveseq[selmdriveact][i]|length}}" type="text" value="{{mdriveseq[selmdriveact][i]}}" /></td>
+		{%endfor%}
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;<input name="submit" type="submit" value="update" /></td>
+		</tr>
+	  	</form>
+		<tr><td><b>motor</b></td><td><b>direction</b></td><td><b>%speed</b></td><td><b>run_duration(sec)</b></td><td><b>sound_file_name</b></td><td><b>play_time_ms</b></td><td><b>play</b></td><td>&nbsp;</td></tr><tr>
+		</table>
+	  </div>
+		
+	{% endif %}
+
+    </div>
+	
+    <!-- 4th row of the mdrive options interface:            -->
+	<div class="fourth row" style="margin-top: 0;" >
+
+    </div>
+	
+	<hr>
+	
+	{% include 'back_to_obj_type_choose.html' %}
+
+    {% include 'select_insert.html' %}
+
+    {% include 'weboff_insert.html' %}
+
+  </div>
+
+{% endblock %}

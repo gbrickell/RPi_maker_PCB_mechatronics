@@ -1,0 +1,3 @@
+servo ref move1 sound1_file_name time_ms move2 sound2_file_path time_ms repeat
+15    5   280   gorilla1.wav     6500    120   nothing          1500    1
+15    5   280   gorilla1.wav     6500    120   nothing          1500    1

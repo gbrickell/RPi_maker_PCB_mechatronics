@@ -1,0 +1,55 @@
+  <!-- version: 1.00 -->
+  <!-- file name: system_stats.html -->
+  <!-- mechatronics Flask web interface - a page template for selecting and running a stepper motor option  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses a 'partial' to insert the common HTML for returning to the select options -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220126 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the system stats interface: -->
+	<div class="first row">
+      <div style="margin-top: 3%; width: auto; padding-left: 15%; padding-right: 15%;">
+        <table align="center">
+		<tr><td>Raspberry Pi model: </td><td>{{build}}</td></tr>
+		<tr><td>software version: </td><td>{{swversion}}</td></tr>
+		<tr><td>IP Address: </td><td>{{boxIP}}</td></tr>
+		<tr><td>host name: </td><td>{{boxhost}}</td></tr>
+		<tr><td>WiFi MAC: </td><td>{{macwifi}}</td></tr>
+		<tr><td>audio output: </td><td>{{boxaudio}}</td></tr>
+		<tr><td>#servo motor objects: </td><td>{{servoobjs}}</td></tr>
+		<tr><td>#stepper motor objects: </td><td>{{stepperobjs}}</td></tr>		
+		<tr><td>#drive motor objects: </td>
+		    <td>{% if mdriveobjs == 0 %} drive motors not set up yet 
+			    {% else %} {{mdriveobjs}}
+				{% endif %}
+			</td></tr>
+		<tr><td>#custom objects: </td><td>{{custobjs}}</td></tr>
+		<tr><td>CPU temperature: </td><td>{{cputemp}} <sup>o</sup>C</td></tr>
+		</table>
+      </div>
+
+    </div>
+
+    <!-- 2nd row of the system stats interface: -->
+	<div class="second row">
+      <div class="one-third column" style="margin-top: 3%; margin-left: 2%;">
+      </div>
+      <div class="one-third column" style="margin-top: 3%; margin-left: 2%;">
+        <a class="button button-primary u-full-width" href="/system_stats">refresh stats</a>
+      </div>
+      <div class="one-third column" style="margin-top: 3%; margin-left: 2%;">
+      </div>	
+    </div>
+
+
+    {% include 'select_insert.html' %}
+	
+  </div>
+
+{% endblock %}

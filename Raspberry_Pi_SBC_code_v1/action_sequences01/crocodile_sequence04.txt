@@ -1,0 +1,7 @@
+servo ref move1 sound1_file_name  time_ms move2 sound2_file_path time_ms repeat
+0     5   260   crocodile5.mp3    4500    370   nothing          500     1
+1     6   370   nothing            500    150   nothing          500     2
+0     5   260   crocodile5.mp3    4500    370   nothing          500     1
+1     6   370   nothing            500    150   nothing          500     2
+0     5   260   crocodile5.mp3    4500    370   nothing          500     1
+1     6   370   nothing            500    150   nothing          500     2

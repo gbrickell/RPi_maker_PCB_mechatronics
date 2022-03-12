@@ -1,0 +1,43 @@
+  <!-- version: 1.00 -->
+  <!-- file name: robot_arm01.html -->
+  <!-- mechatronic Flask web interface - a page template for the custom robot arm demo  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses a 'partial' to insert the common HTML for returning to the select options -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220124 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the servo options interface:     -->
+	<div class="first row">
+
+	  
+    </div>
+
+    <!-- 2nd row of the servo options interface:     -->
+	<div class="second row">
+
+
+    </div>
+
+    <!-- 3rd row of the servo options interface:     -->
+	<div class="third row">
+      {% if warnweb|length > 0 %}
+	  <div style="margin-top: 3%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        <h5>{{warnweb}}</h5>
+      </div>
+	  {% endif %}
+
+    </div>
+
+    {% include 'back_to_custom_insert.html' %}
+
+    {% include 'select_insert.html' %}
+
+  </div>
+
+{% endblock %}

@@ -1,0 +1,85 @@
+  <!-- version: 1.00 -->
+  <!-- file name: servo_options.html -->
+  <!-- mechatronic Flask web interface - a page template for selecting and running a servo motor object  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses a 'partial' to insert the common HTML for returning to the select options -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220127 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the servo options interface: list and select one of the currently defined servo objects    -->
+	<div class="first row">
+      <h5 align="center" style="margin-bottom: 0px;">List of {{servoobjs}} servo motor mechatronic objects</h5>
+      <div style="margin-top: 0%; width: auto; padding-left: 10%; padding-right: 10%;">
+	    <table align="center" style="margin-bottom: 0px;">
+		<tr><td align="center"><b>object#</b></td><td><b>object name</b></td><td><b>object description</b></td><td><b>&nbsp;</b></td></tr>
+		{%for i in range(1, servoobjs+1)%}
+			{% if i == selservoobj %}
+			<tr><td  align="center" bgcolor="#33FF00">{{i}}</td><td  bgcolor="#33FF00">{{an_objects[i][0]}}</td><td bgcolor="#33FF00">{{an_objects[i][3]}}</td><td bgcolor="#33FF00"><a class="button button-primary u-full-width" href="/servo/servo_choose{{i}}">select</a></td></tr>
+			{% else %}
+			<tr><td align="center" bgcolor="FFFFFF">{{i}}</td><td  bgcolor="FFFFFF">{{an_objects[i][0]}}</td><td bgcolor="FFFFFF">{{an_objects[i][3]}}</td><td bgcolor="FFFFFF"><a class="button button-primary u-full-width" href="/servo/servo_choose{{i}}">select</a></td></tr>
+			{% endif %}
+		{%endfor%}	  
+		</table>	  
+	  </div>
+	  
+    </div>
+
+    <!-- 2nd row of the servo options interface: run or stop the object   -->
+	<div class="second row" style="margin-top: 0;">
+
+      {% if warnweb|length > 0 %}
+	  <div style="margin-top: 1%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        <h5 style="margin-bottom: 0;">{{warnweb}}</h5>
+      </div>
+	  {% endif %}
+
+	  {% if selservoobj > 0 %}
+
+	  <div style="margin-top: 0%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        {% if selservoobj > rowsservochans-1 > 1 %}
+        <h5 style="margin-bottom: 0;"> no servo channels assigned for this servo object;
+		{% else %}
+       		 {% if servo_channels[selservoobj][1]|int > 1 %}
+       		 	<h5 style="margin-bottom: 0;"> {{servo_channels[selservoobj][1]}} servo's used: channel# &nbsp;
+       		 {% else %}
+       		 	<h5 style="margin-bottom: 0;"> {{servo_channels[selservoobj][1]}} servo used: channel# &nbsp;
+		     {% endif %}   
+
+       		 {%for i in range(1, servo_channels[selservoobj][1]|int+1)%}
+        		{% if i < servo_channels[selservoobj][1]|int %}
+        		    {{servo_channels[selservoobj][i*2]}} - {{servo_channels[selservoobj][i*2+1]}},&nbsp;
+      		    {% else %}
+       		        {{servo_channels[selservoobj][i*2]}} - {{servo_channels[selservoobj][i*2+1]}}
+	  		    {% endif %}
+			 {%endfor%}
+		{% endif %}
+		</h5>
+      </div>
+
+
+      <div class="one-quarter column" style="margin-top: 1%; margin-left: 18.666%;">
+        <a class="button button-primary u-full-width" href="/servo/servo_run">Go</a>
+      </div>
+	  <div class="one-quarter column" style="margin-top: 1%; margin-left: 18.666%;">
+        <a class="button button-primary u-full-width" href="/servo/servo_stop">Stop</a>
+      </div>
+	  {% endif %}
+
+    </div>
+
+    <!-- 3rd row of the servo options interface:            -->
+	<div class="third row" style="margin-top: 0;" >
+
+    </div>
+
+    {% include 'select_insert.html' %}
+
+  </div>
+
+{% endblock %}

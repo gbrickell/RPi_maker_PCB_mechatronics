@@ -1,0 +1,65 @@
+  <!-- version: 1.00 -->
+  <!-- file name: select_mode.html -->
+  <!-- mechatronic Flask web interface - a page template for the maintence option selection  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- and uses the stop web inserted 'partial' -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220130 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the selection interface: stepper motor selection-->
+	<div class="first row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/stepper/stepper_list">stepper motor mechatronics</a>
+      </div>
+    </div>
+
+    <!-- 2nd  row of the selection interface: servo motor selection  -->
+	<div class="second row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/servo/servo_list">servo motor mechatronics</a>
+      </div>
+    </div>
+
+    <!-- 3rd row of the selection interface: drive motor selection  -->
+	<div class="third row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/mdrive/mdrive_list">drive motor mechatronics</a>
+      </div>
+    </div>
+
+    <!-- 4th row of the selection interface: custom mechatronics selection  -->
+	<div class="fourth row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/custom/custom_list">custom mechatronics</a>
+      </div>
+    </div>
+
+    <!-- 5th row of the selection interface:  -->
+
+	
+    <!-- 6th row of the selection interface: system stats selection  -->
+	<div class="sixth row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/system_stats">system stats</a>
+      </div>
+    </div>
+
+    <!-- 7th row of the selection interface: maintenance option selection  -->
+	<div class="seventh row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/maintenance/maintain_list">maintenance options</a>
+      </div>
+    </div>
+
+    <!-- 8th row of the selection interface:  -->
+
+
+  </div>
+
+{% endblock %}

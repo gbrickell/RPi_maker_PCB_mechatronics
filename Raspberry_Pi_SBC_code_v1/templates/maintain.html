@@ -1,0 +1,62 @@
+  <!-- version: 1.00 -->
+  <!-- file name: maintain.html -->
+  <!-- mechatronic Flask web interface - a page template for the main option selection  -->
+  <!-- 'invokes' layout.html for the overall layout -->
+  <!-- Author: Enmore -->
+  <!-- Date: 220127 -->
+
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <div class="container">
+
+    <!-- 1st row of the selection interface: object setup/edit selection-->
+	<div class="first row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/maintenance/object_type_choose">object file management</a>
+      </div>
+    </div>
+
+    <!-- 2nd row of the selection interface: sound hdmi/analog selection  -->
+	<div class="second row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/maintenance/sound_output">sound output management</a>
+      </div>
+    </div>
+	
+    <!-- 3rd row of the selection interface: sound file upload/edit selection  -->
+	<div class="third row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/maintenance/sound_list">sound file management</a>
+      </div>
+    </div>
+
+    <!-- 4th row of the selection interface: software upgrade  -->
+	<div class="fourth row">
+      <div style="margin-top: 3%; width: auto; padding-left: 25%; padding-right: 25%;">
+        <a class="button button-primary u-full-width" href="/maintenance/sw_upgrade">software upgrade</a>
+      </div>
+    </div>
+
+    <!-- 4th row of the selection interface: system stats selection  -->
+	<div class="fourth row">
+
+    </div>
+
+    <!-- 5th row of the selection interface: maintenance option selection  -->
+	<div class="fifth row">
+
+      {% if warnweb|length > 0 %}
+	  <div style="margin-top: 1%; width: auto; padding-left: 10%; padding-right: 10%; text-align:center">
+        <h5 style="margin-bottom: 0;">{{warnweb}}</h5>
+      </div>
+	  {% endif %}
+
+    </div>
+
+    {% include 'select_insert.html' %}
+
+  </div>
+
+{% endblock %}

@@ -1,0 +1,4 @@
+object_name  reference  sequence_file            object_description
+elephant01   1          elephant_sequence04.txt  elephant_that_'trumpets'_and_wags_its_tail
+gorilla01    2          gorilla_sequence04.txt   gorllla_that_stands_up_and_roars
+crocodile01  3          crocodile_sequence04.txt crocodile_that_growls_and_wags_its_tail 
