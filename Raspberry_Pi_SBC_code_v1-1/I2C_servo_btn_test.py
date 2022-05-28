@@ -3,7 +3,8 @@
 # RPi kits PCB mechatronic version of I2C_servo_btn.py - servo control using a PCA9685 I2C controller
 # moves a SG90 servo on channel N from min to max position whenever a button is pressed
 #
-# command:  python3 /home/pi/RPi_maker_kit5/mechatronics/I2C_servo_btn_test.py
+# assuming the user is in their own file space i.e. /home/YOURUSERNAME - the command to use is:
+#   python3 ./RPi_maker_kit5/mechatronics/I2C_servo_btn_test.py
 
 # CLI command to check I2C address:  i2cdetect -y -r 1
 #
@@ -60,7 +61,7 @@ GPIO.setup(button_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 # compiled C is used because it is faster than interpreted python coding and some 
 # of these functions need to run as fast as possible
 
-picontrol_servo = CDLL("/home/pi/RPi_maker_kit5/mechatronics/libpicontrol_servo.so")
+picontrol_servo = CDLL("./RPi_maker_kit5/mechatronics/libpicontrol_servo.so")
 #call the servo connect C function to check connection to the compiled 'C' library
 picontrol_servo.connect_servo() 
 
@@ -82,13 +83,13 @@ print("PCA9685 initialised")
 servo_chan = 99
 # set the min and max servo pulse lengths
 # min: 1ms pulse length ie should be 205 steps out of 4096 but fine tuned for the specific servo - see the support documentation for more details
-servo_min = 160 
+servo_min = 150 
 
 # max: 1.5ms pulse length ie should be 308 steps out of 4096 but fine tuned for the specific servo - see the support documentation for more details 
 servo_mid = 350 
 
 # mid: 2ms pulse length ie should be 410 steps out of 4096 but fine tuned for the specific servo - see the support documentation for more details
-servo_max = 560 
+servo_max = 600 
 
 print (" ***************************************************************************")
 print (" An individual servo channel number 0-15 needs to be entered ")
@@ -107,11 +108,11 @@ try:    # this loop is not strictly necessary but it does allow the script to be
         # button pressed so move servo on channel O between extremes.
         print("button pressed - moving servo on channel 0")
         picontrol_servo.setServo(filedesc, int(servo_chan), servo_min, 50)
-        time.sleep(2)
+        time.sleep(1)
         picontrol_servo.setServo(filedesc, int(servo_chan), servo_max, 50)
-        time.sleep(2)
+        time.sleep(1)
         picontrol_servo.setServo(filedesc, int(servo_chan), servo_mid, 50)
-        time.sleep(2)
+        time.sleep(1)
         print("press the button 2 again to move the servo or CTRL C to stop")
 
 finally:  # this code is run when the try is interrupted with a CTRL-C
