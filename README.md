@@ -1,13 +1,13 @@
-# Raspberry Pi Maker Kit controlled mechatronic builds
+# Raspberry Pi Maker PCB controlled mechatronic builds
 ## Documentation, example code and related data/image files to support mechatronic builds.
 
  &nbsp; &nbsp; <img src="images/elephant_mechatronic_20220206_100833954_1000w.jpg" width="600" height="375">
 
 The word ‘mechatronic’ is used to mean any object where the movement, and any associated sound generation, is managed by a computer such as a Raspberry Pi. The object could be anything from a simple 2D animal outline (sometimes called an ‘animatronic’) through to a complex 3D Lego structure.
 
-Full details about the project are published at <a href="https://onlinedevices.co.uk/RPi+Maker+Kit+-+Mechatronic+projects" target="_blank" >this link</a> and the designs for a range of associated custom 3D printed components can be downloaded from <a href="https://www.prusaprinters.org/prints/137215-servo-motor-framework-connectors" target="_blank">here, </a><a href="https://www.prusaprinters.org/prints/71626-stepper-motor-and-controller-lego-duplo-connectors" target="_blank">here, </a><a href="https://www.prusaprinters.org/prints/71561-servo-motor-and-pwm-controller-lego-connectors" target="_blank">and here</a>.
+Full details about the project are published at <a href="https://onlinedevices.org.uk/RPi+Maker+PCB+-+Mechatronic+projects" target="_blank" >this link</a> and the designs for a range of associated custom 3D printed components can be downloaded from <a href="https://www.prusaprinters.org/prints/137215-servo-motor-framework-connectors" target="_blank">here, </a><a href="https://www.prusaprinters.org/prints/71626-stepper-motor-and-controller-lego-duplo-connectors" target="_blank">here, </a><a href="https://www.prusaprinters.org/prints/71561-servo-motor-and-pwm-controller-lego-connectors" target="_blank">and here</a>.
 
-The version 1.1 set of code and related material, provided here for a Raspberry Pi single board computer (SBC) connected to a Maker Kit PCB, is for mechatronic builds that use servo, stepper and drive motors. The version 1.1 update is to allow for a generalised username instead of the previous default username 'pi'.
+The version 1.1 set of code and related material, provided here for a Raspberry Pi single board computer (SBC) connected to a Maker PCB, is for mechatronic builds that use servo, stepper and drive motors. The version 1.1 update is to allow for a generalised username instead of the previous default username 'pi'.
 
 A constraint for the current versions is that each build can only use one type of motor. A future version of the overall system aims to support mechatronic builds that can use a mix of motor types.
 
